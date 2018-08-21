@@ -6,7 +6,8 @@ LABEL \
 
 RUN apt-get update -y && apt-get install -y \
 python \
-python-pip
+python-pip \
+zlib1g-dev
 
 RUN pip install --upgrade pip
 
