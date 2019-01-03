@@ -7,7 +7,6 @@ from cyvcf2 import VCF
 import tempfile
 import csv
 import binascii
-import pdb
 
 def parse_csq_header(vcf_file):
     for header in vcf_file.header_iter():
@@ -78,7 +77,6 @@ for variant in vcf_file:
     pos = str(variant.POS)
     ref = str(variant.REF)
     alts = variant.ALT
-    print variant
 
     if chr not in vep:
         vep[chr] = {}
