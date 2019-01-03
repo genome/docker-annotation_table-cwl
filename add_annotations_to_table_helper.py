@@ -90,14 +90,9 @@ for variant in vcf_file:
     csq = variant.INFO.get('CSQ')
     if csq is not None:
         transcripts = parse_csq_entries(csq.split(','), csq_fields)
-        csq = None
     else:
-        if len(alts) == 1:
-            alt = str(alts[0])
-        else:
-            sys.exit("expected only 1 alt entry")
-        vep[chr][pos][ref][alt] = None
-        csq = None
+        for alt in alts:
+            vep[chr][pos][ref][alt] = None
         continue
     alleles_dict = resolve_alleles(variant, transcripts.keys())
     for alt in alts:
