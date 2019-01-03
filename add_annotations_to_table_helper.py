@@ -7,6 +7,7 @@ from cyvcf2 import VCF
 import tempfile
 import csv
 import binascii
+import pdb
 
 def parse_csq_header(vcf_file):
     for header in vcf_file.header_iter():
@@ -77,6 +78,7 @@ for variant in vcf_file:
     pos = str(variant.POS)
     ref = str(variant.REF)
     alts = variant.ALT
+    print variant
 
     if chr not in vep:
         vep[chr] = {}
@@ -90,8 +92,14 @@ for variant in vcf_file:
     csq = variant.INFO.get('CSQ')
     if csq is not None:
         transcripts = parse_csq_entries(csq.split(','), csq_fields)
+        csq = None
     else:
+        if len(alts) == 1:
+            alt = str(alts[0])
+        else:
+            sys.exit("expected only 1 alt entry")
         vep[chr][pos][ref][alt] = None
+        csq = None
         continue
     alleles_dict = resolve_alleles(variant, transcripts.keys())
     for alt in alts:
@@ -111,6 +119,7 @@ with open(tsv_filename, 'r') as input_filehandle:
     writer.writeheader()
     for entry in reader:
         row = entry
+        
         for field in vep_fields_list:
             field_annotations = []
             for alt in entry['ALT'].split(','):
