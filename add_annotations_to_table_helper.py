@@ -91,7 +91,8 @@ for variant in vcf_file:
     if csq is not None:
         transcripts = parse_csq_entries(csq.split(','), csq_fields)
     else:
-        vep[chr][pos][ref][alt] = None
+        for alt in alts:
+            vep[chr][pos][ref][alt] = None
         continue
     alleles_dict = resolve_alleles(variant, transcripts.keys())
     for alt in alts:
@@ -111,6 +112,7 @@ with open(tsv_filename, 'r') as input_filehandle:
     writer.writeheader()
     for entry in reader:
         row = entry
+        
         for field in vep_fields_list:
             field_annotations = []
             for alt in entry['ALT'].split(','):
