@@ -14,6 +14,6 @@ zlib1g-dev
 
 RUN pip install --upgrade pip
 
-RUN pip install cyvcf2==0.10.2
+RUN pip install cyvcf2==0.10.1
 
 COPY add_annotations_to_table_helper.py /usr/bin/add_annotations_to_table_helper.py
